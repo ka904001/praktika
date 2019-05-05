@@ -3,31 +3,13 @@
 #include <fstream>
 #include <iostream>
 using namespace std;
-void base::input_n() {
+void base::input() {
   cout << "Введите количество пар значений" << endl;
   cin >> size;
   data[0] = new double[size];
   data[1] = new double[size];
   data[2] = new double[size];
-  cout << "Введите " << size
-       << " пар элементов через пробел (число исходов i-го типа, значение "
-          "исхода i-го типа)"
-       << endl;
-  for (int i = 1; i <= size; i++) {
-    cout << "Введите " << i << " пару элементов ";
-    cin >> data[i - 1][0] >> data[i - 1][1];
-  }
-}
-void base::input_p() {
-  cout << "Введите количество пар значений" << endl;
-  cin >> size;
-  data[0] = new double[size];
-  data[1] = new double[size];
-  data[2] = new double[size];
-  cout << "Введите " << size
-       << " пар элементов через пробел (вероятность исхода i-го типа, значение "
-          "исхода i-го типа)"
-       << endl;
+  cout << "Введите " << size << " пар элементов через пробел" << endl;
   for (int i = 1; i <= size; i++) {
     cout << "Введите " << i << " пару элементов ";
     cin >> data[i - 1][0] >> data[i - 1][1];
@@ -59,55 +41,45 @@ void base::me_count() {
     averege += data[0][i] * data[1][i];
   }
 }
-void base::da_count_out() {
+void base::da_count() {
   dis = 0.0;
-  double cl = 0.0;
   int n = 0;
   ma_count();
-  fstream file("output.txt", ios::out);
   for (int i = 0; i < size; i++) {
     data[2][i] = data[0][i] * (data[1][i] - averege) * (data[1][i] - averege);
-    for (int j = 0; j < 3; j++) {
-      cout.width(15);
-      cout << data[j][i];
-      if (j == 2)
-        cout << endl;
-      file.width(15);
-      file << data[j][i];
-      if (j == 2)
-        file << endl;
-    }
     dis += data[2][i];
     n += data[0][i];
   }
   dis /= n;
-  cout << "Дисперсия для данного множества: D^2 = " << dis << endl;
-  cout << "Среднеквадратическое отклонение: sqrt(D^2) = " << sqrt(dis);
-  file << "Дисперсия для данного множества: D^2 = " << dis << endl;
-  file << "Среднеквадратическое отклонение: sqrt(D^2) = " << sqrt(dis);
-  file.close();
 }
-void base::de_count_out() {
+void base::de_count() {
   dis = 0.0;
-  double cl = 0.0;
   me_count();
-  fstream file("output.txt", ios::out);
   for (int i = 0; i < size; i++) {
     data[2][i] = data[0][i] * (data[1][i] - averege) * (data[1][i] - averege);
+    dis += data[2][i];
+  }
+}
+void base::output() {
+  fstream file("output.txt", ios::out);
+  for (int i = 0; i < size; i++) {
     for (int j = 0; j < 3; j++) {
       cout.width(15);
       cout << data[j][i];
-      if (j == 2)
-        cout << endl;
       file.width(15);
       file << data[j][i];
-      if (j == 2)
+      if (j == 2) {
         file << endl;
+        cout << endl;
+      }
     }
-    dis += data[2][i];
   }
+  cout << "Математическое ожидание для данного множества: M(X) = " << averege
+       << endl;
   cout << "Дисперсия для данного множества: D^2 = " << dis << endl;
   cout << "Среднеквадратическое отклонение: sqrt(D^2) = " << sqrt(dis);
+  file << "Математическое ожидание для данного множества: M(X) = " << averege
+       << endl;
   file << "Дисперсия для данного множества: D^2 = " << dis << endl;
   file << "Среднеквадратическое отклонение: sqrt(D^2) = " << sqrt(dis);
   file.close();
@@ -120,15 +92,7 @@ void application::init() {
   if (ch) {
     finput();
   } else {
-    cout << "Вводятся количество исходов и соответсвующее значение (0) или"
-         << endl
-         << "вероятность исхода и его значение (1)?" << endl;
-    cin >> choice;
-    if (choice) {
-      input_p();
-    } else {
-      input_n();
-    }
+    input();
   }
 }
 void application::exec() {
@@ -137,8 +101,9 @@ void application::exec() {
        << endl;
   cin >> choice;
   if (choice) {
-    de_count_out();
+    de_count();
   } else {
-    da_count_out();
+    da_count();
   }
+  output();
 }

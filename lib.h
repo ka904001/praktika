@@ -3,14 +3,13 @@
 
 class base {
 public:
-  void input_n();
-  void input_p();
+  void input();
   void finput();
   void me_count();
   void ma_count();
-  void de_count_out();
-  void da_count_out();
-  bool choice;
+  void de_count();
+  void da_count();
+  void output();
 
 private:
   double *data[3];
@@ -23,6 +22,9 @@ class application : public base {
 public:
   void init();
   void exec();
+
+private:
+  bool choice;
 };
 
 #endif
