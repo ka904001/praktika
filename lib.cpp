@@ -27,18 +27,18 @@ void base::finput() {
   file.close();
 }
 void base::ma_count() {
-  averege = 0.0;
+  average = 0.0;
   int n = 0;
   for (int i = 0; i < size; i++) {
-    averege += data[0][i] * data[1][i];
+    average += data[0][i] * data[1][i];
     n += (int)data[0][i];
   }
-  averege /= n;
+  average /= n;
 }
 void base::me_count() {
-  averege = 0.0;
+  average = 0.0;
   for (int i = 0; i < size; i++) {
-    averege += data[0][i] * data[1][i];
+    average += data[0][i] * data[1][i];
   }
 }
 void base::da_count() {
@@ -46,7 +46,7 @@ void base::da_count() {
   int n = 0;
   ma_count();
   for (int i = 0; i < size; i++) {
-    data[2][i] = data[0][i] * (data[1][i] - averege) * (data[1][i] - averege);
+    data[2][i] = data[0][i] * (data[1][i] - average) * (data[1][i] - average);
     dis += data[2][i];
     n += data[0][i];
   }
@@ -56,7 +56,7 @@ void base::de_count() {
   dis = 0.0;
   me_count();
   for (int i = 0; i < size; i++) {
-    data[2][i] = data[0][i] * (data[1][i] - averege) * (data[1][i] - averege);
+    data[2][i] = data[0][i] * (data[1][i] - average) * (data[1][i] - average);
     dis += data[2][i];
   }
 }
@@ -74,11 +74,11 @@ void base::output() {
       }
     }
   }
-  cout << "Математическое ожидание для данного множества: M(X) = " << averege
+  cout << "Математическое ожидание для данного множества: M(X) = " << average
        << endl;
   cout << "Дисперсия для данного множества: D^2 = " << dis << endl;
   cout << "Среднеквадратическое отклонение: sqrt(D^2) = " << sqrt(dis);
-  file << "Математическое ожидание для данного множества: M(X) = " << averege
+  file << "Математическое ожидание для данного множества: M(X) = " << average
        << endl;
   file << "Дисперсия для данного множества: D^2 = " << dis << endl;
   file << "Среднеквадратическое отклонение: sqrt(D^2) = " << sqrt(dis);

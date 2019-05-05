@@ -14,7 +14,7 @@ public:
 private:
   double *data[3];
   int size;
-  double averege;
+  double average;
   double dis;
 };
 
